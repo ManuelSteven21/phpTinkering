@@ -1,0 +1,23 @@
+{
+    "name": "steven/phptinkering",
+    "description": "Exercici PHPtinkering",
+    "type": "project",
+    "require": {
+        "vlucas/phpdotenv": "^5.6"
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Core\\": "Core/"
+        },
+        "files" : [
+            "Core/helpers.php"
+        ]
+    },
+    "authors": [
+        {
+            "name": "Steven",
+            "email": "mromero1@iesebre.com"
+        }
+    ]
+}
