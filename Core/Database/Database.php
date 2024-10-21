@@ -6,21 +6,19 @@ use PDO;
 
 class Database
 {
-    protected $pdo; //guardem instancia de la classe pdo
+    protected $connection; //guardem instancia de la classe pdo
 
     //creem constructor reb una instancia pdo per a realitzar les consultes
-    public function __construct($pdo)
+    public function __construct(PDO $connection)
     {
-        $this->pdo = $pdo;
+        $this->connection = $connection;
     }
 
-    //creem funcio per agafar els registres d'una taula de la base de dades
-    public function selectAll($table)
+    //funcio per a la connexió
+    public function getConnection()
     {
-        $statement = $this->pdo->prepare("SELECT * FROM $table");
-
-        $statement->execute();
-
-        return $statement->fetchAll(PDO::FETCH_CLASS);
+        return $this->connection;
     }
+
+
 }

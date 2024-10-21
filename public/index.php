@@ -1,5 +1,5 @@
 <?php
-//require "app/index.php";
+//require "App/index_old.php";
 //require "resources/views/index_old.blade.php";
 
 use Core\App;
@@ -15,3 +15,4 @@ require '../Core/bootstrap.php';
 
 //gestionem les rutes del projecte i l'enrutador busca la ruta a config i rederigeix la solicitud al controlador
 App::get('router')->redirect($_SERVER['REQUEST_URI']);
+

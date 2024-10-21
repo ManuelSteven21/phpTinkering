@@ -1,8 +1,14 @@
 <?php
 //definim les rutes
 return [
-    '/' => '../app/index.php',
-    '/index.php' => '../app/index.php',
-    '/index' => '../app/index.php',
-    '/home' => '../app/index.php',
+    '/' => 'app/Controllers/FilmController@index',
+    '/index.php' => 'app/Controllers/FilmController@index',
+    '/index' => 'app/Controllers/FilmController@index',
+    '/home' => 'app/Controllers/FilmController@index',
+    '/create' => 'app/Controllers/FilmController@create',
+    '/store' => 'app/Controllers/FilmController@store',
+    '/edit' => 'app/Controllers/FilmController@edit',
+    '/update' => 'app/Controllers/FilmController@update',
+    '/delete' => 'app/Controllers/FilmController@delete',
+    '/destroy' => 'app/Controllers/FilmController@destroy',
 ];
