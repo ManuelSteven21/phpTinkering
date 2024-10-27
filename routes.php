@@ -11,4 +11,5 @@ return [
     '/update' => 'app/Controllers/FilmController@update',
     '/delete' => 'app/Controllers/FilmController@delete',
     '/destroy' => 'app/Controllers/FilmController@destroy',
+    '/show' => 'app/Controllers/FilmController@show',
 ];

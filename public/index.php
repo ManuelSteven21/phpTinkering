@@ -15,4 +15,3 @@ require '../Core/bootstrap.php';
 
 //gestionem les rutes del projecte i l'enrutador busca la ruta a config i rederigeix la solicitud al controlador
 App::get('router')->redirect($_SERVER['REQUEST_URI']);
-
