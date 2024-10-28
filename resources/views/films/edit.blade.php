@@ -20,7 +20,7 @@
 <main class="flex-grow px-4 sm:px-6 lg:px-8">
     <div class="max-w-lg mx-auto bg-white bg-opacity-80 shadow-lg rounded-lg p-6 mt-6 mb-6">
         <h1 class="text-3xl font-bold mb-4 text-center text-black">Edit Film</h1>
-        <form action="/update" method="POST">
+        <form action="/films/update" method="POST">
             <input type="hidden" name="id" value="<?= htmlspecialchars($film->id) ?>" class="mt-1 block w-full border border-gray-300 rounded-md p-2">
             <div class="mb-4">
                 <label for="name" class="block text-gray-700">Title:</label>
@@ -49,7 +49,7 @@
             <div class="mb-4">
                 <label for="description" class="block text-gray-700">Description:</label>
                 <textarea name="description" rows="4" maxlength="500" class="mt-1 block w-full border border-gray-300 rounded-md p-2" required><?= htmlspecialchars($film->description) ?></textarea>
-                <p class="text-gray-500 text-sm">Max 500 characters</p>
+                <p class="text-gray-500 text-sm">Max 255 characters</p>
             </div>
             <button type="submit" class="w-full bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700 transition duration-300">Edit</button>
         </form>

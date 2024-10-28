@@ -4,9 +4,9 @@ namespace App\Models;
 
 use Core\App;
 
-class Film
+class Game
 {
-    protected static $table = 'films';
+    protected static $table = 'games';
 
     // Funció per a obtenir totes les pel·lícules
     public static function getAll()
@@ -14,7 +14,7 @@ class Film
         $db = App::get('database');
         $statement = $db->getConnection()->prepare('SELECT * FROM ' . self::$table);
         $statement->execute();
-        return $statement->fetchAll(); // Retorna un array d'objectes
+        return $statement->fetchAll();
     }
 
     // Funció per a buscar una pel·lícula
@@ -22,23 +22,21 @@ class Film
     {
         $db = App::get('database')->getConnection();
         $statement = $db->prepare('SELECT * FROM ' . self::$table . ' WHERE id = :id');
-        $statement->execute(['id' => $id]);
-        return $statement->fetch(\PDO::FETCH_OBJ); // Retorna l'objecte de la pel·lícula
+        $statement->execute(array('id' => $id));
+        return $statement->fetch(\PDO::FETCH_OBJ); // Comprova que inclogui la columna Description
     }
 
     // Funció create
     public static function create($data)
     {
         $db = App::get('database')->getConnection();
-        $statement = $db->prepare('INSERT INTO ' . static::$table . " (name, director, year, genre, duration, cast, description) VALUES (:name, :director, :year, :genre, :duration, :cast, :description)");
+        $statement = $db->prepare('INSERT INTO ' . static::$table . " (name, developers, year, genre, description) VALUES (:name, :developers, :year, :genre, :description)");
 
         // Vinculem els valors
         $statement->bindValue(':name', $data['name']);
-        $statement->bindValue(':director', $data['director']);
+        $statement->bindValue(':developers', $data['developers']);
         $statement->bindValue(':year', $data['year']);
         $statement->bindValue(':genre', $data['genre']);
-        $statement->bindValue(':duration', $data['duration']);
-        $statement->bindValue(':cast', $data['cast']);
         $statement->bindValue(':description', $data['description']);
 
         $statement->execute();
@@ -48,16 +46,14 @@ class Film
     public static function update($id, $data)
     {
         $db = App::get('database')->getConnection();
-        $statement = $db->prepare("UPDATE " . static::$table . " SET name = :name, director = :director, year = :year, genre = :genre, duration = :duration, cast = :cast, description = :description WHERE id = :id");
+        $statement = $db->prepare("UPDATE " . static::$table . " SET name = :name, developers = :developers, year = :year, genre = :genre, description = :description WHERE id = :id");
 
         // Vinculem els valors
         $statement->bindValue(':id', $id);
         $statement->bindValue(':name', $data['name']);
-        $statement->bindValue(':director', $data['director']);
+        $statement->bindValue(':developers', $data['developers']);
         $statement->bindValue(':year', $data['year']);
         $statement->bindValue(':genre', $data['genre']);
-        $statement->bindValue(':duration', $data['duration']);
-        $statement->bindValue(':cast', $data['cast']);
         $statement->bindValue(':description', $data['description']);
 
         $statement->execute();

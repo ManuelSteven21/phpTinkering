@@ -33,74 +33,126 @@ class Route
 
         // Ruta de la pàgina principal (Inici)
         if ($uri === '/') {
-            require '../App/Controllers/HomeController.php'; // Aquí carreguem el controlador de la pàgina d'inici
+            require '../App/Controllers/HomeController.php';
             $controller = 'App\Controllers\HomeController';
-            // Creem una nova instància del controlador d'inici
             $controllerInstance = new $controller();
-            return $controllerInstance->index(); // Redirigim a la funció index
+            return $controllerInstance->index();
         }
 
         if ($uri === '/films') {
             require '../App/Controllers/FilmController.php';
             $controller = 'App\Controllers\FilmController';
             $controllerInstance = new $controller();
-            return $controllerInstance->index(); // Mostra totes les pel·lícules
+            return $controllerInstance->index();
         }
 
-        // Resta de rutes per FilmController (CRUD)
-        if ($parts[0] === 'create') {
-            require '../App/Controllers/FilmController.php';
-            $controllerInstance = new $controller();
-            return $controllerInstance->create();
+        if ($uri === '/games') {
+            require '../App/Controllers/GameController.php';
+            $Gamecontroller = 'App\Controllers\GameController';
+            $controllerInstance2 = new $Gamecontroller();
+            return $controllerInstance2->index();
         }
 
-        if ($parts[0] === 'store' && $_SERVER['REQUEST_METHOD'] === 'POST') {
+        // Rutes per FilmController (CRUD)
+        if ($parts[0] === 'films') {
             require '../App/Controllers/FilmController.php';
             $controllerInstance = new $controller();
-            $data = $_POST;
-            return $controllerInstance->store($data);
-        }
 
-        if ($parts[0] === 'delete' && $parts[1]) {
-            require '../App/Controllers/FilmController.php';
-            $controllerInstance = new $controller();
-            return $controllerInstance->delete($parts[1]);
-        }
-
-        if ($parts[0] === 'destroy' && $_SERVER['REQUEST_METHOD'] === 'POST') {
-            require '../App/Controllers/FilmController.php';
-            $controllerInstance = new $controller();
-            if (!isset($_POST['id'])) {
-                throw new RuntimeException('No id provided');
+            switch ($parts[1]) {
+                case 'create':
+                    return $controllerInstance->create();
+                case 'store':
+                    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                        $data = $_POST;
+                        return $controllerInstance->store($data);
+                    }
+                    break;
+                case 'delete':
+                    if (isset($parts[2])) {
+                        return $controllerInstance->delete($parts[2]);
+                    }
+                    break;
+                case 'destroy':
+                    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                        if (!isset($_POST['id'])) {
+                            throw new RuntimeException('No id provided');
+                        }
+                        return $controllerInstance->destroy($_POST['id']);
+                    }
+                    break;
+                case 'edit':
+                    if (isset($parts[2])) {
+                        return $controllerInstance->edit($parts[2]);
+                    }
+                    break;
+                case 'update':
+                    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                        $data = $_POST;
+                        if (!isset($_POST['id'])) {
+                            throw new RuntimeException('No id provided');
+                        }
+                        return $controllerInstance->update($_POST['id'], $data);
+                    }
+                    break;
+                case 'show':
+                    if (isset($parts[2])) {
+                        return $controllerInstance->show($parts[2]);
+                    }
+                    break;
             }
-            return $controllerInstance->destroy($_POST['id']);
         }
 
-        if ($parts[0] === 'edit' && $parts[1]) {
-            require '../App/Controllers/FilmController.php';
-            $controllerInstance = new $controller();
-            return $controllerInstance->edit($parts[1]);
-        }
+        // Rutes per GameController (CRUD)
+        if ($parts[0] === 'games') {
+            require '../App/Controllers/GameController.php';
+            $Gamecontroller = 'App\Controllers\GameController';
+            $controllerInstance2 = new $Gamecontroller();
 
-        if ($parts[0] === 'update' && $_SERVER['REQUEST_METHOD'] === 'POST') {
-            require '../App/Controllers/FilmController.php';
-            $controllerInstance = new $controller();
-            $data = $_POST;
-            if (!isset($_POST['id'])) {
-                throw new RuntimeException('No id provided');
+            switch ($parts[1]) {
+                case 'create':
+                    return $controllerInstance2->create();
+                case 'store':
+                    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                        $data = $_POST;
+                        return $controllerInstance2->store($data);
+                    }
+                    break;
+                case 'delete':
+                    if (isset($parts[2])) { // Aquí s'ha d'agafar l'ID del videojoc
+                        return $controllerInstance2->delete($parts[2]);
+                    }
+                    break;
+                case 'destroy':
+                    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                        if (!isset($_POST['id'])) {
+                            throw new RuntimeException('No id provided');
+                        }
+                        return $controllerInstance2->destroy($_POST['id']);
+                    }
+                    break;
+                case 'edit':
+                    if (isset($parts[2])) { // Aquí s'ha d'agafar l'ID del videojoc
+                        return $controllerInstance2->edit($parts[2]);
+                    }
+                    break;
+                case 'update':
+                    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                        $data = $_POST;
+                        if (!isset($_POST['id'])) {
+                            throw new RuntimeException('No id provided');
+                        }
+                        return $controllerInstance2->update($_POST['id'], $data);
+                    }
+                    break;
+                case 'show':
+                    if (isset($parts[2])) { // Aquí s'ha d'agafar l'ID del videojoc
+                        return $controllerInstance2->show($parts[2]);
+                    }
+                    break;
             }
-            return $controllerInstance->update($_POST['id'], $data);
-        }
-
-        // Show (detalls de la pel·lícula)
-        if ($parts[0] === 'films' && $parts[1] === 'show' && isset($parts[2])) {
-            require '../App/Controllers/FilmController.php';
-            $controllerInstance = new $controller();
-            return $controllerInstance->show($parts[2]); // Passa l'ID de la pel·lícula
         }
 
         // Si no es cap dels anteriors, retornem la vista 404
         return require '../resources/views/errors/404.blade.php';
     }
-
 }
