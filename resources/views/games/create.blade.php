@@ -50,6 +50,7 @@
 
             <button type="submit" class="w-full bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition duration-300">Add Game</button>
         </form>
+        <a href="/games" class="text-gray-500 hover:underline mt-4 block text-center">Return</a>
     </div>
 </main>
 
